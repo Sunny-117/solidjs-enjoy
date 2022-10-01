@@ -1,3 +1,3 @@
 git add .
-git commit -m "$"
+git commit -m "feat: add new feature"
 git push
