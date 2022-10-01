@@ -1,23 +1,45 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import { setupCounter } from './counter.js'
+// ref reactive effect
+import { createSignal, createEffect } from 'solid-js'
+const [count, setCount] = createSignal(1)
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+// vue ref count.value
+// react count
+console.log(count())
 
-setupCounter(document.querySelector('#counter'))
+let b;
+createEffect(() => {
+  b = count() + 10;
+  console.log(b)
+})
+setInterval(() => {
+  setCount(count() + 1)
+}, 1000);
+
+// 实现原理
+function createSignal(value) {
+  const effects = new Set()
+  function read() {
+    // 依赖收集
+    if (currentEffect) {
+      effects.add(currentEffect)
+    }
+    return value
+  }
+  function write(newValue) {
+    // 触发依赖
+    value = newValue
+    for (const effect of effects) {
+      effect()
+    }
+  }
+  return [
+    read,
+    write
+  ]
+}
+let currentEffect
+function createEffect(effect) {
+  currentEffect = effect
+  effect()
+  currentEffect = null
+}
