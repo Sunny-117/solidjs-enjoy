@@ -1,7 +1,4 @@
-# solidjs-read
-
-使用 solidjs 写一个 todolist 看看会不会比 react 和 vue 更好用
-
+# solidjs-enjoy
 
 # 特点：
 
@@ -14,4 +11,6 @@
 # 使用感受：
 
 
-参考：https://github.com/cuixiaorui/solidjs-crash-course
+
+
+https://github.com/cuixiaorui/solidjs-crash-course
